@@ -41,6 +41,7 @@ public class BusDBAdapter {
     
 
     public static final String LISTINGS_TABLE = "listings";
+    public static final String LISTING_SITE_ID = "site_id";
     public static final String LISTING_TITLE = "title";
     public static final String LISTING_LAT = "latitude";
     public static final String LISTING_LONG = "longitude";
@@ -53,7 +54,8 @@ public class BusDBAdapter {
     
     private static final String LISTINGS_TABLE_CREATE =
         "create table "+LISTINGS_TABLE+" (_id integer primary key autoincrement, "
-        + 	LISTING_TITLE	+" text, " +
+        + 	LISTING_SITE_ID	+" integer not null, " +
+        	LISTING_TITLE	+" text, " +
         	LISTING_LAT 	+" double," +
         	LISTING_LONG	+" double," +
         	LISTING_DESCR	+" text," +
@@ -127,6 +129,7 @@ public class BusDBAdapter {
      */
     public long addListing(Listing listing) {
         ContentValues initialValues = new ContentValues();
+        initialValues.put(LISTING_SITE_ID, listing.id)
         initialValues.put(LISTING_TITLE, listing.title);
         initialValues.put(LISTING_LAT, listing.latitude);
         initialValues.put(LISTING_LONG, listing.longitude);
@@ -137,13 +140,6 @@ public class BusDBAdapter {
     
     public Cursor fetchAllListings() {
         return mDb.rawQuery("SELECT * FROM "+LISTINGS_TABLE+";", null);
-    }
-    
-    public void emptyDB(){
-    	mDb.delete(LISTINGS_TABLE, null, null);
-    	mDb.delete(LISTING_TITLE, null, null);
-    	mDb.delete(LISTING_LONG, null, null);
-    	mDb.delete(LISTING_LAT, null, null);
     }
 
 

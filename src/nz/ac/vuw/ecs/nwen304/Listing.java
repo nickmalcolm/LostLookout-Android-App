@@ -7,5 +7,6 @@ public class Listing {
 	public double longitude;
 	public String description;
 	public String url;
+	public int id;
 
 }
