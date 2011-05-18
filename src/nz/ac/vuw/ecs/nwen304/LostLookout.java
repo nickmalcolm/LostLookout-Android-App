@@ -9,5 +9,9 @@ public class LostLookout extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        JSONParser jp = new JSONParser("http://10.0.2.2:3000/listings.json");
+    	jp.runJSONParser();
+    	System.out.println("Hello");
     }
 }

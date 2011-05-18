@@ -60,11 +60,11 @@ public class RouteSelector extends Activity {
         
         //Populate the database
     	//getData();	
-        Cursor mRoutesCursor = bdba.fetchAllRoutes();
+        Cursor mRoutesCursor = bdba.fetchAllListings();
         startManagingCursor(mRoutesCursor);
 
         // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{BusDBAdapter.KEY_ROUTE_ROUTE_LONG_NAME};
+        String[] from = new String[]{BusDBAdapter.LISTING_TITLE};
 
         // create simple cursor adapter
         SimpleCursorAdapter adapter =
@@ -90,7 +90,7 @@ public class RouteSelector extends Activity {
 				startManagingCursor(cc);
 				if (cc != null) {
 				     route_selected = cc.getString(
-				        cc.getColumnIndex(BusDBAdapter.KEY_ROUTE_ROUTE_LONG_NAME));
+				        cc.getColumnIndex(BusDBAdapter.LISTING_TITLE));
 				}
 
 		    	setPreferences();
@@ -166,56 +166,10 @@ public class RouteSelector extends Activity {
      */
     private void populateDB() {        
         
-    	SharedPreferences sp = getApplicationContext().getSharedPreferences(SHARED_PREFS_NAME, 0);
-    	
-    	//Get the current table versions from the preferences
-    	//Default to -1, so they'll always update if we lose data
-    	int cur_stops_version = sp.getInt(BusDBAdapter.STOPS_TABLE+"_version", -1);
-    	int cur_stop_times_version = sp.getInt(BusDBAdapter.STOP_TIMES_TABLE+"_version", -1);
-    	int cur_routes_version = sp.getInt(BusDBAdapter.ROUTES_TABLE+"_version", -1);
-    	int cur_trips_version = sp.getInt(BusDBAdapter.TRIPS_TABLE+"_version", -1);
-    	
-    	//Get the latest table versions available
-    	XmlPullFeedParser xml = new XmlPullFeedParser("http://homepages.ecs.vuw.ac.nz/~malcolnich/versions-mixed.xml");
-    	HashMap<String, Integer> versions = xml.getDBVersions();
-    	
-    	//For saving new versions to preferences
-		Editor e = sp.edit();
-    	
-    	//Compare and update if needed
+    	JSONParser jp = new JSONParser("http://localhost:3000/listings.json");
+    	jp.runJSONParser();
+    	System.out.println("Hello");
 		
-		
-    	if(cur_stops_version < versions.get(BusDBAdapter.STOPS_TABLE)){
-    		Stop.fillDbFromXML("http://ecs.vuw.ac.nz/~ian/nwen304/stops.xml", bdba);
-			e.putInt(BusDBAdapter.STOPS_TABLE+"_version", versions.get(BusDBAdapter.STOPS_TABLE));
-
-    		toastIt("Updated Stops...");
-    	}
-    	
-    	if(cur_stop_times_version < versions.get(BusDBAdapter.STOP_TIMES_TABLE)){
-    		StopTime.fillDbFromXML("http://ecs.vuw.ac.nz/~ian/nwen304/stop_times.xml", bdba);
-			e.putInt(BusDBAdapter.STOP_TIMES_TABLE+"_version", versions.get(BusDBAdapter.STOP_TIMES_TABLE));
-			
-    		toastIt("Updated Stop Times...");
-    	}
-    	
-    	
-    	if(cur_trips_version < versions.get(BusDBAdapter.TRIPS_TABLE)){
-    		Trip.fillDbFromXML("http://ecs.vuw.ac.nz/~ian/nwen304/trips.xml", bdba);
-			e.putInt(BusDBAdapter.TRIPS_TABLE+"_version", versions.get(BusDBAdapter.TRIPS_TABLE));
-
-			toastIt("Updated Trips...");
-    	}
-    	
-    	if(cur_routes_version < versions.get(BusDBAdapter.ROUTES_TABLE)){
-    		Route.fillDbFromXML("http://ecs.vuw.ac.nz/~ian/nwen304/routes.xml", bdba);
-			e.putInt(BusDBAdapter.ROUTES_TABLE+"_version", versions.get(BusDBAdapter.ROUTES_TABLE));
-
-			toastIt("Updated Routes...");
-    	}
-
-    	//Save the new versions
-    	e.commit();
     	
 	}
     
