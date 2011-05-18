@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, LostLookout!</string>
-    <string name="app_name">Lost Lookout App</string>
+    <string name="app_name">Duluth Timetable Viewer</string>
+    <string name="depart_at">Select departure time</string>
+    <string name="bus_times">Bus Stop times:</string>
+    <string name="empty">No route selected</string>
+    <string name="select_route">Select a route</string>
+    <string name="get_timetable">Get timetable!</string>
 </resources>
