@@ -129,7 +129,7 @@ public class BusDBAdapter {
      */
     public long addListing(Listing listing) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(LISTING_SITE_ID, listing.id)
+        initialValues.put(LISTING_SITE_ID, listing.id);
         initialValues.put(LISTING_TITLE, listing.title);
         initialValues.put(LISTING_LAT, listing.latitude);
         initialValues.put(LISTING_LONG, listing.longitude);
