@@ -34,7 +34,7 @@ import android.widget.Toast;
  */
 public class ListingsView extends Activity {
 	
-	public final static String SHARED_PREFS_NAME = "DulutyRoutesPrefs";
+	public final static String SHARED_PREFS_NAME = "LostLookoutPrefs";
 	
 	private DBAdapter bdba;
 	
@@ -54,7 +54,7 @@ public class ListingsView extends Activity {
 	protected void onResume() { 
     	super.onResume();
     	
-    	populateDB();
+    	//populateDB();
     	
         setContentView(R.layout.route_selector); 
         
