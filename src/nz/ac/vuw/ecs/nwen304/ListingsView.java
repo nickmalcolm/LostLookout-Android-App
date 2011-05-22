@@ -54,7 +54,7 @@ public class ListingsView extends ListActivity {
 		
 		// Now create a simple cursor adapter and set it to display
 		SimpleCursorAdapter listings = 
-			new SimpleCursorAdapter(this, R.layout.stops_row, listingsCursor, from, to);
+			new SimpleCursorAdapter(this, R.layout.row, listingsCursor, from, to);
 		setListAdapter(listings);
     }
     
