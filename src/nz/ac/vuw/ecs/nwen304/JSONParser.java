@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 
+import nz.ac.vuw.ecs.nwen304.models.Listing;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

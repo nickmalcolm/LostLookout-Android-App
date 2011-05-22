@@ -18,6 +18,8 @@ package nz.ac.vuw.ecs.nwen304;
 
 import java.util.Collection;
 
+import nz.ac.vuw.ecs.nwen304.models.Listing;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
