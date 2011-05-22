@@ -16,7 +16,8 @@
 
 package nz.ac.vuw.ecs.nwen304;
 
-import android.content.ContentValues;
+import java.util.Collection;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -31,36 +32,13 @@ import android.util.Log;
  * @author malcolnich
  *
  */
-public class BusDBAdapter {
+public class DBAdapter {
 
     public static final String KEY_ROWID = "_id";
 
     private static final String TAG = "ListingsDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
-    
-
-    public static final String LISTINGS_TABLE = "listings";
-    public static final String LISTING_SITE_ID = "site_id";
-    public static final String LISTING_TITLE = "title";
-    public static final String LISTING_LAT = "latitude";
-    public static final String LISTING_LONG = "longitude";
-    public static final String LISTING_DESCR = "description";
-    public static final String LISTING_URL = "url";
-
-    /**
-     * Database creation sql statements
-     */
-    
-    private static final String LISTINGS_TABLE_CREATE =
-        "create table "+LISTINGS_TABLE+" (_id integer primary key autoincrement, "
-        + 	LISTING_SITE_ID	+" integer not null, " +
-        	LISTING_TITLE	+" text, " +
-        	LISTING_LAT 	+" double," +
-        	LISTING_LONG	+" double," +
-        	LISTING_DESCR	+" text," +
-        	LISTING_URL		+" text" +
-        	");";
     
     private static final String DATABASE_NAME = "data";
     
@@ -80,14 +58,14 @@ public class BusDBAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(LISTINGS_TABLE_CREATE);
+            db.execSQL(Listing.createSQLTable());
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-        	db.execSQL("DROP TABLE IF EXISTS "+LISTINGS_TABLE);
+        	db.execSQL("DROP TABLE IF EXISTS "+Listing.TABLE_NAME);
             onCreate(db);
         }
     }
@@ -98,7 +76,7 @@ public class BusDBAdapter {
      * 
      * @param ctx the Context within which to work
      */
-    public BusDBAdapter(Context ctx) {
+    public DBAdapter(Context ctx) {
         this.mCtx = ctx;
     }
 
@@ -111,7 +89,7 @@ public class BusDBAdapter {
      *         initialization call)
      * @throws SQLException if the database could be neither opened or created
      */
-    public BusDBAdapter open() throws SQLException {
+    public DBAdapter open() throws SQLException {
         mDbHelper = new DatabaseHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
         return this;
@@ -120,6 +98,7 @@ public class BusDBAdapter {
     public void close() {
         mDbHelper.close();
     }
+    
     /**
      * Add a new stop to the stops table. If the stop is
      * successfully created return the new rowId for that note, otherwise return
@@ -128,18 +107,22 @@ public class BusDBAdapter {
      * @return rowId or -1 if failed
      */
     public long addListing(Listing listing) {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(LISTING_SITE_ID, listing.id);
-        initialValues.put(LISTING_TITLE, listing.title);
-        initialValues.put(LISTING_LAT, listing.latitude);
-        initialValues.put(LISTING_LONG, listing.longitude);
-        initialValues.put(LISTING_DESCR, listing.description);
-        initialValues.put(LISTING_URL, listing.url);
-        return mDb.insert(LISTINGS_TABLE, null, initialValues);
+        return mDb.insert(Listing.TABLE_NAME, null, listing.getContentValues());
+    }
+    
+    /**
+     * Will attempt to add any and all listings to DB
+     * @param listings
+     */
+    public void addListings(Collection<Listing> listings){
+    	for(Listing l : listings){
+    		Log.i("DB: ", "Adding "+l.title+" to the database.");
+    		addListing(l);
+    	}
     }
     
     public Cursor fetchAllListings() {
-        return mDb.rawQuery("SELECT * FROM "+LISTINGS_TABLE+";", null);
+        return mDb.rawQuery("SELECT * FROM "+Listing.TABLE_NAME+";", null);
     }
 
 
