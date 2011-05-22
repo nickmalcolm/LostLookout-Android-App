@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -72,8 +74,8 @@ public class ListingsView extends ListActivity {
      * Populates the database with various timetables if they need to be updated
      */
     private void populateDB() {        
-        
-    	
+    	ArrayList<Listing> listings = JSONParser.getListings("http://10.0.2.2:3000/listings.json");
+        bdba.updateAll(listings);
 	}
     
     private void toastIt(String msg){
