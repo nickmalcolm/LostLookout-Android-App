@@ -32,7 +32,7 @@ import android.widget.Toast;
  *
  * 
  */
-public class RouteSelector extends Activity {
+public class ListingsView extends Activity {
 	
 	public final static String SHARED_PREFS_NAME = "DulutyRoutesPrefs";
 	
