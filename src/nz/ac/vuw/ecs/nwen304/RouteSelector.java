@@ -36,7 +36,7 @@ public class RouteSelector extends Activity {
 	
 	public final static String SHARED_PREFS_NAME = "DulutyRoutesPrefs";
 	
-	private BusDBAdapter bdba;
+	private DBAdapter bdba;
 	
 	private String route_selected = "";
 	private int direction_selected = 0;
@@ -47,7 +47,7 @@ public class RouteSelector extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_selector);
-        bdba = new BusDBAdapter(this);
+        bdba = new DBAdapter(this);
         bdba.open();
     }
 
@@ -64,7 +64,7 @@ public class RouteSelector extends Activity {
         startManagingCursor(mRoutesCursor);
 
         // Create an array to specify the fields we want to display in the list (only TITLE)
-        String[] from = new String[]{BusDBAdapter.LISTING_TITLE};
+        String[] from = new String[]{Listing.TITLE};
 
         // create simple cursor adapter
         SimpleCursorAdapter adapter =
@@ -90,7 +90,7 @@ public class RouteSelector extends Activity {
 				startManagingCursor(cc);
 				if (cc != null) {
 				     route_selected = cc.getString(
-				        cc.getColumnIndex(BusDBAdapter.LISTING_TITLE));
+				        cc.getColumnIndex(Listing.TITLE));
 				}
 
 		    	setPreferences();
@@ -166,8 +166,6 @@ public class RouteSelector extends Activity {
      */
     private void populateDB() {        
         
-    	JSONParser jp = new JSONParser("http://localhost:3000/listings.json");
-    	jp.runJSONParser();
     	System.out.println("Hello");
 		
     	

@@ -1,60 +1,49 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URI;
+import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class JSONParser {
 	
-	private List<Listing> listings = new ArrayList<Listing>();
+	public static ArrayList<Listing> getListings(String url){
+		//Make a container for our Listings
+		Type collectionType = new TypeToken<ArrayList<Listing>>(){}.getType();
+
+		ArrayList<Listing> listings = null;
+
+		Gson gson = new Gson();
+
+		String response = curl(url);
+
+		listings = gson.fromJson(response, collectionType);
+
+		return listings;
+    }
 	
-	private String url;
-	
-	public JSONParser(String url){
-		this.url = url;
-	}
-	
-	private InputStream jsonReader(String url){
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        URI uri;
-        InputStream data = null;
+	private static String curl(String url){
+    	String r = "";
         try {
-            uri = new URI(url);
-            HttpGet method = new HttpGet(uri);
-            HttpResponse response = httpClient.execute(method);
-            data = response.getEntity().getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        	URL url_u = new URL(url);
+        	InputStream response = url_u.openStream();
+        	BufferedReader reader = new BufferedReader(new InputStreamReader(response));
+        	for (String line; (line = reader.readLine()) != null;) {
+        		r += line;
+        	}
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        return data;
-    }
-	
-	public void runJSONParser(){
-        try{
-        Log.i("MY INFO", "Json Parser started..");
-        Gson gson = new Gson();
-        Reader r = new InputStreamReader(jsonReader(url));
-        Log.i("MY INFO", r.toString());
-        Listings listings = gson.fromJson(r, Listings.class);
-        Log.i("MY INFO", ""+listings.getListings().size());
-        for(Listing l : listings.getListings()){
-            Log.i("LISTING ", l.title);
-        }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
+        return r;
+	}
 
 }
