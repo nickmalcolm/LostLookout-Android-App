@@ -1,9 +1,8 @@
-package nz.ac.vuw.ecs.nwen304.views;
+package nz.ac.vuw.ecs.nwen304;
 
-import nz.ac.vuw.ecs.nwen304.DBAdapter;
-import nz.ac.vuw.ecs.nwen304.R;
-import nz.ac.vuw.ecs.nwen304.models.Listing;
 import android.app.ListActivity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.SimpleCursorAdapter;
@@ -23,6 +22,10 @@ public class ListingsView extends ListActivity {
 	public final static String SHARED_PREFS_NAME = "LostLookoutPrefs";
 	
 	private DBAdapter bdba;
+	
+	private String route_selected = "";
+	private int direction_selected = 0;
+	private int spinner_selected = 0;
 
 	/** Called when the activity is first created. */
     @Override

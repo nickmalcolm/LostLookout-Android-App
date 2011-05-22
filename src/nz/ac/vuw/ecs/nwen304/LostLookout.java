@@ -1,13 +1,10 @@
-package nz.ac.vuw.ecs.nwen304.views;
+package nz.ac.vuw.ecs.nwen304;
 
 import java.util.ArrayList;
 
-import nz.ac.vuw.ecs.nwen304.DBAdapter;
-import nz.ac.vuw.ecs.nwen304.JSONParser;
-import nz.ac.vuw.ecs.nwen304.R;
-import nz.ac.vuw.ecs.nwen304.models.Listing;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class LostLookout extends Activity {
     /** Called when the activity is first created. */

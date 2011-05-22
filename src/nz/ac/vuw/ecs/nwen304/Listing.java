@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.nwen304.models;
+package nz.ac.vuw.ecs.nwen304;
 
 import android.content.ContentValues;
 
