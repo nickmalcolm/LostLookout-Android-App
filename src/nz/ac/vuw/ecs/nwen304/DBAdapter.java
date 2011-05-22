@@ -107,7 +107,23 @@ public class DBAdapter {
      * @return rowId or -1 if failed
      */
     public long addListing(Listing listing) {
+		Log.i("DB: ", "Adding "+listing.title+" to the database.");
         return mDb.insert(Listing.TABLE_NAME, null, listing.getContentValues());
+    }
+    
+    /**
+     * Takes a Collection of Listing and either adds or updates
+     * @param listings
+     */
+    public void updateAll(Collection<Listing> listings){
+    	int success = 0;
+    	for(Listing l : listings){
+    		Log.i("DB: ", "Updating "+l.title+" in the database.");
+    		success = mDb.update(Listing.TABLE_NAME, l.getContentValues(), "_id = ?", new String[] {l.id+""});
+    		if(success < 1){
+    			addListing(l);
+    		}
+    	}
     }
     
     /**
@@ -116,7 +132,6 @@ public class DBAdapter {
      */
     public void addListings(Collection<Listing> listings){
     	for(Listing l : listings){
-    		Log.i("DB: ", "Adding "+l.title+" to the database.");
     		addListing(l);
     	}
     }
