@@ -42,7 +42,7 @@ public class DBAdapter {
     
     private static final String DATABASE_NAME = "data";
     
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     
     public static int getDatabaseVersion(){
     	return DATABASE_VERSION;

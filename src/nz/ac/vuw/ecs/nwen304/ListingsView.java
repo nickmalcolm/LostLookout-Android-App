@@ -40,7 +40,7 @@ public class ListingsView extends ListActivity {
 	protected void onResume() { 
     	super.onResume();
     	
-    	//populateDB();
+    	populateDB();
     	
         setContentView(R.layout.list); 
         
