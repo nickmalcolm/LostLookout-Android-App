@@ -16,6 +16,7 @@
 
 package nz.ac.vuw.ecs.nwen304;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import android.content.Context;
@@ -138,6 +139,40 @@ public class DBAdapter {
     
     public Cursor fetchAllListings() {
         return mDb.rawQuery("SELECT * FROM "+Listing.TABLE_NAME+";", null);
+    }
+    
+    public ArrayList<Listing> getAllListings(){
+    	Cursor cur = fetchAllListings();
+    	ArrayList<Listing> listings = new ArrayList<Listing>();
+    	
+    	boolean importing = false;
+    	
+    	int title = cur.getColumnIndex(Listing.TITLE);
+    	int lat = cur.getColumnIndex(Listing.LAT);
+    	int l_long = cur.getColumnIndex(Listing.LONG);
+    	int descr = cur.getColumnIndex(Listing.DESCR);
+    	int url = cur.getColumnIndex(Listing.URL);
+    	int id = cur.getColumnIndex(Listing.ID);
+    	int lost = cur.getColumnIndex(Listing.LOST);
+    	
+    	
+    	while(importing){
+    		 listings.add(new Listing(
+    			cur.getString(title),
+    			cur.getDouble(lat),
+    			cur.getDouble(l_long),
+    			cur.getString(descr),
+    			cur.getString(url),
+    			cur.getInt(id),
+    			cur.getInt(lost) == 0
+    		));
+    		if(!cur.moveToNext()){
+    			importing = false;
+    		}
+    	}
+    	
+    	return listings;
+    	
     }
 
 

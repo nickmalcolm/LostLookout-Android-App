@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
+
 import android.content.ContentValues;
 
 /**
@@ -28,6 +31,17 @@ public class Listing {
 	public static String ID = "_id";
 	public static String LOST = "lost";
 	
+	/**
+	 * Make a Listing POJO
+	 * 
+	 * @param title
+	 * @param latitude
+	 * @param longitude
+	 * @param description
+	 * @param url
+	 * @param id
+	 * @param lost
+	 */
 	public Listing(String title, double latitude, double longitude,
 			String description, String url, int id, boolean lost) {
 		this.title = title;
@@ -60,6 +74,17 @@ public class Listing {
 	
 	public static String tableColumns(){
 		return "(_id, title, latitude, longitude, description, url, lost)";
+	}
+	
+	/**
+	 * @return
+	 */
+	public OverlayItem asOverlayItem(){
+		return new OverlayItem(new GeoPoint((int) (this.latitude*1e6), (int) (this.longitude*1e6)), longTitle(), this.description);
+	}
+	
+	public String longTitle(){
+		return (this.lost ? "Lost " : "Found ")+title;
 	}
 
 }

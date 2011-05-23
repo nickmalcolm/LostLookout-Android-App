@@ -6,13 +6,14 @@
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> 
-    
-    <uses-library android:name="com.google.android.maps" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name"
-     android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".ListingsView"
-                  android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    
+    	<uses-library android:name="com.google.android.maps" />
+    	
+        <activity android:name=".ListingsMap"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
