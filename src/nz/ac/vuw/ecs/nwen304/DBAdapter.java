@@ -165,7 +165,7 @@ public class DBAdapter {
     			cur.getString(descr),
     			cur.getString(url),
     			cur.getInt(id),
-    			cur.getInt(lost) == 0
+    			cur.getInt(lost) == 1
     		));
     		if(!cur.moveToNext()){
     			importing = false;
