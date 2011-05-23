@@ -57,9 +57,10 @@ public class ListingsMap extends MapActivity{
 	    mapView.setBuiltInZoomControls(true);
 	    
 	    List<Overlay> mapOverlays = mapView.getOverlays();
-	    Drawable drawable = this.getResources().getDrawable(R.drawable.androidmarker);
+	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
+	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
 	    for(Listing l : listings){
-	    	ListingOverlay itemizedoverlay = new ListingOverlay(drawable, this);
+	    	ListingOverlay itemizedoverlay = new ListingOverlay(l.lost ? lost : found, this);
 
 		    OverlayItem overlayitem = l.asOverlayItem();
 		    
@@ -82,13 +83,13 @@ public class ListingsMap extends MapActivity{
 
 	
 	public class GeoUpdateHandler implements LocationListener {
-
+		//Defaults to Wellington
 		int lat = (int) (-41.2924945*1E6);
 		int lng = (int) (174.7732353*1E6);
 		
 		public GeoUpdateHandler(){
 			GeoPoint gp = new GeoPoint(lat, lng);
-			setLocation(gp, 14);
+			setLocation(gp, 12);
 		}
 		
 		@Override
@@ -96,7 +97,7 @@ public class ListingsMap extends MapActivity{
 			this.lat = (int) (location.getLatitude() * 1E6);
 			this.lng = (int) (location.getLongitude() * 1E6);
 			GeoPoint gp = new GeoPoint(lat, lng);
-			setLocation(gp, 14);
+			setLocation(gp, 12);
 		}
 		
 		public void setLocation(GeoPoint gp, int zoom){
