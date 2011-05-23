@@ -17,14 +17,16 @@ public class JSONParser {
 		//Make a container for our Listings
 		Type collectionType = new TypeToken<ArrayList<Listing>>(){}.getType();
 
-		ArrayList<Listing> listings = null;
+		ArrayList<Listing> listings = new ArrayList<Listing>();
 
 		Gson gson = new Gson();
 
 		String response = curl(url);
 
-		listings = gson.fromJson(response, collectionType);
-
+		if(response != ""){
+			listings = gson.fromJson(response, collectionType);
+		}
+		
 		return listings;
     }
 	
