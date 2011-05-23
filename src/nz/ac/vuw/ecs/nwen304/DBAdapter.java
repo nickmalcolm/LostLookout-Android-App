@@ -120,6 +120,7 @@ public class DBAdapter {
     	int success = 0;
     	for(Listing l : listings){
     		Log.i("DB: ", "Updating "+l.title+" in the database.");
+    		
     		success = mDb.update(Listing.TABLE_NAME, l.getContentValues(), "_id = ?", new String[] {l.id+""});
     		if(success < 1){
     			addListing(l);
@@ -142,10 +143,10 @@ public class DBAdapter {
     }
     
     public ArrayList<Listing> getAllListings(){
-    	Cursor cur = fetchAllListings();
-    	ArrayList<Listing> listings = new ArrayList<Listing>();
+    	Cursor cur = mDb.query(Listing.TABLE_NAME, null, null, null, null, null, null);
+    	boolean importing = cur.moveToFirst();
     	
-    	boolean importing = false;
+    	ArrayList<Listing> listings = new ArrayList<Listing>();
     	
     	int title = cur.getColumnIndex(Listing.TITLE);
     	int lat = cur.getColumnIndex(Listing.LAT);
@@ -170,7 +171,7 @@ public class DBAdapter {
     			importing = false;
     		}
     	}
-    	
+    	cur.close();
     	return listings;
     	
     }
