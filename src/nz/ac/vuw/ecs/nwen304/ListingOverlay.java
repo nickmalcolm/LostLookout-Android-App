@@ -14,15 +14,10 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
 	
-	public ListingOverlay(Drawable defaultMarker) {
-		super(boundCenterBottom(defaultMarker));
-		// TODO Auto-generated constructor stub
-	}
-	
 	public ListingOverlay(Drawable defaultMarker, Context context) {
-		  super(defaultMarker);
-		  mContext = context;
-		}
+		super(boundCenterBottom(defaultMarker));
+		mContext = context;
+	}
 
 	@Override
 	protected OverlayItem createItem(int i) {

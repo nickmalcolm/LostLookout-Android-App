@@ -59,7 +59,7 @@ public class ListingsMap extends MapActivity{
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    Drawable drawable = this.getResources().getDrawable(R.drawable.androidmarker);
 	    for(Listing l : listings){
-	    	ListingOverlay itemizedoverlay = new ListingOverlay(drawable);
+	    	ListingOverlay itemizedoverlay = new ListingOverlay(drawable, this);
 
 		    OverlayItem overlayitem = l.asOverlayItem();
 		    
