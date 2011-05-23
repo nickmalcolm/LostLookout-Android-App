@@ -80,7 +80,11 @@ public class Listing {
 	 * @return
 	 */
 	public OverlayItem asOverlayItem(){
-		return new OverlayItem(new GeoPoint((int) (this.latitude*1e6), (int) (this.longitude*1e6)), longTitle(), this.description);
+		return new OverlayItem(getGeoPoint(), longTitle(), this.description);
+	}
+	
+	public GeoPoint getGeoPoint(){
+		return new GeoPoint((int) (this.latitude*1e6), (int) (this.longitude*1e6));
 	}
 	
 	public String longTitle(){
