@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,6 +20,8 @@ import com.google.android.maps.OverlayItem;
 
 public class ListingsMap extends MapActivity{
 	
+	protected static boolean register;
+
 	Collection<Listing> listings = null;
 
 	private MapController mapController;
@@ -41,9 +42,9 @@ public class ListingsMap extends MapActivity{
 	    
 	    bdba = new DBAdapter(this);
         bdba.open();
-	    
+        
 	}
-	
+
 	@Override
 	public void onResume(){
 		super.onResume();

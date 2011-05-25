@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> 
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:name=".LostLookout" android:icon="@drawable/icon" android:label="@string/app_name">
     
     	<uses-library android:name="com.google.android.maps" />
     	
@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+		
+		<receiver android:name="com.urbanairship.push.IntentReceiver">
+		    <intent-filter>
+		        <action android:name="com.urbanairship.airmail.END_REGISTER"></action>
+		        <action android:name="com.urbanairship.airmail.ACCEPT_PUSH"></action>
+		        <action android:name="com.urbanairship.airmail.NOTIFY"></action>
+		    </intent-filter>
+		</receiver>
+		
     </application>
 </manifest>
