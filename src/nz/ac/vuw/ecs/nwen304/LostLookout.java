@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.nwen304;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.urbanairship.push.APIDReceiver;
@@ -41,6 +43,12 @@ public class LostLookout extends Application {
             public void onReceive(String apid, boolean valid){
                 if(valid){
                     Log.d("push", "Got apid: " + apid);
+                    
+                    SharedPreferences sp = getApplicationContext().getSharedPreferences("LostLookout", 0);
+                    Editor ed = sp.edit();
+            		ed.putString("apid", apid);
+            		ed.commit();
+            		
                 } else {
                     Log.d("push", "Application registration invalid!");
                 }
