@@ -88,7 +88,7 @@ public class ListingsMap extends MapActivity{
 		
 		
 		String args = "lat="+lat+"&lng="+lng;
-		String base_url = "http://10.0.2.2:3000/ladsaistings/near.json?";
+		String base_url = "http://10.0.2.2:3000/listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
 		bdba.updateAll(listings);
@@ -101,7 +101,7 @@ public class ListingsMap extends MapActivity{
 	    for(Listing l : listings){
 	    	ListingOverlay itemizedoverlay = new ListingOverlay(l.lost ? lost : found, this);
 
-		    OverlayItem overlayitem = l.asOverlayItem();
+		    ListingOverlayItem overlayitem = l.asOverlayItem();
 		    
 		    itemizedoverlay.addOverlay(overlayitem);
 		    mapOverlays.add(itemizedoverlay);

@@ -79,8 +79,8 @@ public class Listing {
 	/**
 	 * @return
 	 */
-	public OverlayItem asOverlayItem(){
-		return new OverlayItem(getGeoPoint(), longTitle(), this.description);
+	public ListingOverlayItem asOverlayItem(){
+		return new ListingOverlayItem(getGeoPoint(), longTitle(), this.description, this);
 	}
 	
 	public GeoPoint getGeoPoint(){
