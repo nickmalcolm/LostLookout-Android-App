@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -46,6 +49,9 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	  dialog.setPositiveButton("Full View", new DialogInterface.OnClickListener() {
 		  public void onClick(DialogInterface dialog, int id) {
 			  Log.i("onTap", item.getListing().url);
+			  setURL(item.getListing().url);
+			  Intent i = new Intent(mContext, ListingWebView.class);
+			  mContext.startActivity(i);
 			  dialog.cancel();
 		  }
 	  });
@@ -56,6 +62,14 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	  });
 	  dialog.show();
 	  return true;
+	  
+	}
+	
+	private void setURL(String url){
+		SharedPreferences sp = mContext.getSharedPreferences("LostLookout", 0);
+		Editor e = sp.edit();
+		e.putString("url", url);
+		e.commit();
 	}
 
 }

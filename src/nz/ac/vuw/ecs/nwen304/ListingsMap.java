@@ -88,7 +88,7 @@ public class ListingsMap extends MapActivity{
 		
 		
 		String args = "lat="+lat+"&lng="+lng;
-		String base_url = "http://10.0.2.2:3000/listings/near.json?";
+		String base_url = LostLookout.BASE_URL+"listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
 		bdba.updateAll(listings);
