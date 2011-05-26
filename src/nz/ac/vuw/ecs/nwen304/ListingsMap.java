@@ -1,9 +1,13 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,13 +16,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -42,11 +43,10 @@ public class ListingsMap extends MapActivity{
 	//Wellington
 	private double lat = -41.2924945;
 	private double lng = 174.7732353;
+	public String recent_location = "Wellington";
 	private int zoom = 14;
 	
 	private DBAdapter bdba;
-	
-	public String recent_location;
 
 	
 	@Override
@@ -87,7 +87,7 @@ public class ListingsMap extends MapActivity{
 		
 		
 		
-		String args = "lat="+lat+"&lng="+lng+"&rl="+recent_location+"&apid="+apid;
+		String args = "lat="+lat+"&lng="+lng;
 		String base_url = "http://10.0.2.2:3000/ladsaistings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
@@ -114,6 +114,8 @@ public class ListingsMap extends MapActivity{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		registerWithLostLookout();
 	    
 	}
 	
@@ -141,6 +143,7 @@ public class ListingsMap extends MapActivity{
 			GeoPoint gp = new GeoPoint(mapLat(), mapLng());
 			setLocation(gp, zoom );
 			setRecentLocation();
+			registerWithLostLookout();
 		}
 		
 		@Override
@@ -150,6 +153,7 @@ public class ListingsMap extends MapActivity{
 			GeoPoint gp = new GeoPoint(mapLat(), mapLng());
 			setRecentLocation();
 			setLocation(gp, zoom);
+			registerWithLostLookout();
 		}
 		
 		public void setLocation(GeoPoint gp, int zoom){
@@ -186,5 +190,41 @@ public class ListingsMap extends MapActivity{
 		this.apid = sp.getString("apid", "");
 	}
 	
+    public void registerWithLostLookout() {
+        
+        //Build parameter string
+        String data = "area="+recent_location+"&apid="+apid;
+        try {
+            
+            // Send the request
+            URL url = new URL("http://10.0.2.2:3000/devices/register");
+            URLConnection conn = url.openConnection();
+            conn.setDoOutput(true);
+            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+            
+            //write parameters
+            writer.write(data);
+            writer.flush();
+            
+            // Get the response
+            StringBuffer answer = new StringBuffer();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                answer.append(line);
+            }
+            writer.close();
+            reader.close();
+            
+            //Output the response
+            System.out.println(answer.toString());
+            
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+      
+        }
+   }
 	
 }
