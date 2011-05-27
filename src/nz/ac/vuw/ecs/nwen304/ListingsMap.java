@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nz.ac.vuw.ecs.nwen304.helpers.DistanceCalculator;
+import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlay;
+import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlayItem;
+import nz.ac.vuw.ecs.nwen304.helpers.ReverseGeocode;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +44,7 @@ public class ListingsMap extends MapActivity{
 
 	protected String apid;
 
-	private SmartMapView mapView;
+	private MapView mapView; //SmartMapView mapView;
 	
 	Collection<Listing> listings = null;
 
@@ -83,7 +88,7 @@ public class ListingsMap extends MapActivity{
 	public void onResume(){
 		super.onResume();
 		
-	    this.mapView = (SmartMapView) findViewById(R.id.mapview);
+	    this.mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 	    
 	    mapController = mapView.getController();
@@ -109,6 +114,7 @@ public class ListingsMap extends MapActivity{
 		dba.updateAll(listings);
         listings = dba.getAllListings();
 	    
+        
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    //Lost items are red pins, found are green
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
