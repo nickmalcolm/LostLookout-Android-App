@@ -116,6 +116,7 @@ public class ListingsMap extends MapActivity{
 	    
         
 	    List<Overlay> mapOverlays = mapView.getOverlays();
+	    mapOverlays.clear();
 	    //Lost items are red pins, found are green
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
 	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
