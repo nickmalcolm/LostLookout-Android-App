@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlayItem;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 

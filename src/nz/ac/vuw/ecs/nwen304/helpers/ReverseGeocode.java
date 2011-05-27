@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.nwen304;
+package nz.ac.vuw.ecs.nwen304.helpers;
 
 /*
 Apparently geocoder is not working with the Emulated android.  This is a workaround.

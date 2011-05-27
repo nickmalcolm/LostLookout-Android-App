@@ -1,6 +1,8 @@
-package nz.ac.vuw.ecs.nwen304;
+package nz.ac.vuw.ecs.nwen304.helpers;
 
 import java.util.ArrayList;
+
+import nz.ac.vuw.ecs.nwen304.ListingWebView;
 
 import android.app.AlertDialog;
 import android.content.Context;
