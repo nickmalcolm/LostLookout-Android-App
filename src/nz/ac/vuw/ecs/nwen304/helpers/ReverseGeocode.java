@@ -36,6 +36,12 @@ import org.json.JSONObject;
 import android.location.Address;
 import android.util.Log;
 
+/**
+ * Allows a latitude and longitude to be reverse geocoded
+ * 
+ * @author http://code.google.com/p/android/issues/attachmentText?id=8816&aid=-9179841478848829245&name=ReverseGeocode.java&token=5b4fa0ac90429947339cf4740e3d66a3
+ *
+ */
 public class ReverseGeocode {
 
 	public static List<Address> getFromLocation(double lat, double lon, int maxResults) {

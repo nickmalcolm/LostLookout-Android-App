@@ -16,11 +16,9 @@ import nz.ac.vuw.ecs.nwen304.helpers.DistanceCalculator;
 import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlay;
 import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlayItem;
 import nz.ac.vuw.ecs.nwen304.helpers.ReverseGeocode;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
@@ -28,7 +26,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.maps.GeoPoint;
@@ -38,10 +35,23 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.urbanairship.push.AirMail;
 
+/**
+ * The main view for this app. It displays Listings on a map. 
+ * 
+ * It fetches Listings from LostLookout.com
+ * 
+ * It also keeps LostLookout.com notified of it's most recent location. 
+ * This allows geographically targeted notifications when new listings
+ * are created on the website
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class ListingsMap extends MapActivity{
 	
 	protected static boolean register = true;
 
+	//A unique identifier for UrbanAirship push notifications
 	protected String apid;
 
 	private MapView mapView; //SmartMapView mapView;
@@ -78,6 +88,7 @@ public class ListingsMap extends MapActivity{
         dba.open();
 	    
         if(register){
+        	//Make sure this installation is able to recieve pushes
             AirMail am = AirMail.getInstance();
             am.register(this);
         }
@@ -87,6 +98,8 @@ public class ListingsMap extends MapActivity{
 	@Override
 	public void onResume(){
 		super.onResume();
+		
+		//Create the map
 		
 	    this.mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
@@ -105,6 +118,9 @@ public class ListingsMap extends MapActivity{
 	    
 	}
 	
+	/**
+	 * Fetches the Listings from LostLookout and displays them on the map
+	 */
 	private void pullAndShowListings() {
 		readPreferences();
 		String args = "lat="+lat+"&lng="+lng+"&within="+distance;
@@ -116,6 +132,7 @@ public class ListingsMap extends MapActivity{
 	    
         
 	    List<Overlay> mapOverlays = mapView.getOverlays();
+	    //We always want to redraw this, incase some have been removed.
 	    mapOverlays.clear();
 	    //Lost items are red pins, found are green
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
@@ -178,15 +195,28 @@ public class ListingsMap extends MapActivity{
 	    }
 	}
 	
+	/**
+	 * Returns the latitude*1E6
+	 * @return
+	 */
 	public int mapLat(){
 		return (int) (lat*1E6);
 	}
 	
+	/**
+	 * Returns the longitude*1E6
+	 * @return
+	 */
 	public int mapLng(){
 		return (int) (lng*1E6);
 	}
 
-	
+	/**
+	 * Use to track GPS data
+	 * 
+	 * @author Nicholas Malcolm - malcolnich - 300170288
+	 *
+	 */
 	public class GeoUpdateHandler implements LocationListener {
 		//Defaults to Wellington
 		
@@ -226,7 +256,10 @@ public class ListingsMap extends MapActivity{
 		}
 	}
 	
-
+	/**
+	 * Figures out our general area, e.g. "Wellington".
+	 * This allows targeted push notifications
+	 */
 	public void setRecentLocation(){
 		List<Address> possibleAddresses = new ArrayList<Address>();
 		possibleAddresses = ReverseGeocode.getFromLocation(lat, lng, 3);
@@ -236,6 +269,10 @@ public class ListingsMap extends MapActivity{
 		}
 	}
 	
+	/**
+	 * Registers the current state of this application
+	 * with LostLookout.com
+	 */
     public void registerWithLostLookout() {
         
         //Build parameter string
@@ -243,7 +280,7 @@ public class ListingsMap extends MapActivity{
         try {
             
             // Send the request
-            URL url = new URL("http://10.0.2.2:3000/devices/register");
+            URL url = new URL(LostLookout.BASE_URL+"devices/register");
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
@@ -273,6 +310,9 @@ public class ListingsMap extends MapActivity{
         }
    }
     
+    /**
+     * Read various shared preferences
+     */
 	private void readPreferences(){
 		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
 		this.apid = sp.getString("apid", "");

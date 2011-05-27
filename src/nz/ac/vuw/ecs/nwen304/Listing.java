@@ -8,9 +8,10 @@ import com.google.android.maps.OverlayItem;
 import android.content.ContentValues;
 
 /**
- * A POJO for LostLookout.com Listings. It also knows how to define itself as SQL (SQLite).
  * 
- * @author nickmalcolm
+ * A POJO for LostLookout.com Listings. It also knows how to define itself using SQL (SQLite).
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
  *
  */
 public class Listing {

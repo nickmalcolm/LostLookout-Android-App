@@ -16,6 +16,13 @@ import android.util.Log;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * Listing Overlays are customized to show Dialog boxes with
+ * relevant information regarding a Listing.
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<ListingOverlayItem> mOverlays = new ArrayList<ListingOverlayItem>();
@@ -45,9 +52,13 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	protected boolean onTap(int index) {
 	  final ListingOverlayItem item = mOverlays.get(index);
 	  AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+	  //Fill the box with title and description
 	  dialog.setTitle(item.getTitle());
 	  dialog.setMessage(item.getSnippet());
 	  dialog.setCancelable(false);
+	  
+	  //Add button to view on website, and to cancel dialog box.
+	  
 	  dialog.setPositiveButton("Full View", new DialogInterface.OnClickListener() {
 		  public void onClick(DialogInterface dialog, int id) {
 			  Log.i("onTap", item.getListing().url);
@@ -67,6 +78,9 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	  
 	}
 	
+	/**
+	 * Saves an URL in the shared preferences. Used for ListingWebView
+	 */
 	private void setURL(String url){
 		SharedPreferences sp = mContext.getSharedPreferences("LostLookout", 0);
 		Editor e = sp.edit();

@@ -13,9 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-
+/**
+ * Allows the user to change whether to show found listings,
+ * and how large a radius to show.
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class SettingsView extends Activity {
 
 	private String spinner_selected = "";

@@ -10,6 +10,15 @@ import com.urbanairship.push.APIDReceiver;
 import com.urbanairship.push.AirMail;
 import com.urbanairship.push.PushReceiver;
 
+/**
+ * This is the general application.
+ * 
+ * It handles registering with UrbanAirship (urbanairship.com), which handles
+ * the push notifications.
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class LostLookout extends Application {
     /** Called when the activity is first created. */
 	

@@ -5,6 +5,12 @@ import nz.ac.vuw.ecs.nwen304.Listing;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * A ListingOverlayItem is aware of this Listing which it represents.
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class ListingOverlayItem extends OverlayItem {
 
 	private Listing listing = null;

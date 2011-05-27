@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * Fetches and parses JSON from an URL, and turns it into Listings.
+ * 
+ * Uses the gson library
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class JSONParser {
 	
 	public static ArrayList<Listing> getListings(String url){
@@ -24,6 +32,8 @@ public class JSONParser {
 		String response = curl(url);
 
 		if(response != ""){
+			//Use gson to parse Listings from JSON
+			//Magic!
 			listings = gson.fromJson(response, collectionType);
 		}
 		

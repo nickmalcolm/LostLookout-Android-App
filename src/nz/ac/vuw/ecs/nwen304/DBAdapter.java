@@ -27,7 +27,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Project 2 - Nicholas Malcolm - 300170288
+ * Project 3 - Nicholas Malcolm - 300170288
  * NWEN304 T12011
  * 
  * @author malcolnich

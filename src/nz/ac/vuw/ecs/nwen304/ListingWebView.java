@@ -5,6 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+/**
+ * A simple portal to the website, for displaying a Listing
+ * 
+ * @author Nicholas Malcolm - malcolnich - 300170288
+ *
+ */
 public class ListingWebView extends Activity {
 	
 	WebView mWebView;
