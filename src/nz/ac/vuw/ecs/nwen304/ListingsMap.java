@@ -13,20 +13,24 @@ import java.util.Collection;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 import com.urbanairship.push.AirMail;
 
 public class ListingsMap extends MapActivity{
@@ -35,6 +39,8 @@ public class ListingsMap extends MapActivity{
 
 	protected String apid;
 
+	private MapView mapView;
+	
 	Collection<Listing> listings = null;
 
 	private MapController mapController;
@@ -45,6 +51,8 @@ public class ListingsMap extends MapActivity{
 	private double lng = 174.7732353;
 	public String recent_location = "Wellington";
 	private int zoom = 14;
+	private int distance = 10;
+	private boolean show_found = true;
 	
 	private DBAdapter bdba;
 
@@ -67,15 +75,14 @@ public class ListingsMap extends MapActivity{
             AirMail am = AirMail.getInstance();
             am.register(this);
         }
-
+        
 	}
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		getPreferences();
 		
-	    MapView mapView = (MapView) findViewById(R.id.mapview);
+	    this.mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 	    
 	    mapController = mapView.getController();
@@ -85,9 +92,15 @@ public class ListingsMap extends MapActivity{
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new GeoUpdateHandler());
 		
+		pullAndShowListings();
 		
-		
-		String args = "lat="+lat+"&lng="+lng;
+		registerWithLostLookout();
+	    
+	}
+	
+	private void pullAndShowListings() {
+		readPreferences();
+		String args = "lat="+lat+"&lng="+lng+"&within="+distance;
 		String base_url = LostLookout.BASE_URL+"listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
@@ -114,18 +127,34 @@ public class ListingsMap extends MapActivity{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		registerWithLostLookout();
-	    
 	}
-	
+
 	/* Remove the locationlistener updates when Activity is paused */
 	@Override
 	protected void onPause() {
 		super.onPause();
 	}
 	
-
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    getMenuInflater().inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.refresh:
+	        return true;
+	    case R.id.settings:
+	    	Intent i = new Intent(this, SettingsView.class);
+	        startActivityForResult(i, 0);
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 	public int mapLat(){
 		return (int) (lat*1E6);
@@ -185,11 +214,6 @@ public class ListingsMap extends MapActivity{
 		}
 	}
 	
-	public void getPreferences(){
-		SharedPreferences sp = getApplicationContext().getSharedPreferences("LostLookout", 0);
-		this.apid = sp.getString("apid", "");
-	}
-	
     public void registerWithLostLookout() {
         
         //Build parameter string
@@ -226,5 +250,12 @@ public class ListingsMap extends MapActivity{
       
         }
    }
+    
+	private void readPreferences(){
+		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
+		this.apid = sp.getString("apid", "");
+		this.distance = sp.getInt("distance", 10);
+		this.show_found = sp.getBoolean("show_found", true);
+	}
 	
 }

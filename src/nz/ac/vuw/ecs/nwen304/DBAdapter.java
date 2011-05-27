@@ -175,6 +175,6 @@ public class DBAdapter {
     	return listings;
     	
     }
-
+    
 
 }

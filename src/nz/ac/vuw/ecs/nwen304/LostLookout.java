@@ -14,6 +14,7 @@ public class LostLookout extends Application {
     /** Called when the activity is first created. */
 	
 	public static final String BASE_URL = "http://10.0.2.2:3000/";
+	public static final String SHARED_PREFS = "LostLookout";
 	
 	public void onCreate(){
         AirMail am = AirMail.getInstance();

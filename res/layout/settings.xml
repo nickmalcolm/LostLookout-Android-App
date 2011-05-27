@@ -10,7 +10,7 @@
 	android:text="Show found listings?"/>
 	 
 	<Spinner 
-	android:id="@+id/route_spinner"
+	android:id="@+id/distance_spinner"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:prompt="@string/distance_prompt"/>

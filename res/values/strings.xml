@@ -2,9 +2,10 @@
 <resources>
     <string name="app_name">Lost Lookout Mobile</string>
     <string name="distance_prompt">Show Listings within</string>
+    <string name="refresh">Refresh Map</string>
+    <string name="settings">Settings</string>
     <string-array name="distance_array">
         <item>10 km</item>
-        <item>20 km</item>
         <item>50 km</item>
         <item>1000 km</item>
         <item>The World</item>
