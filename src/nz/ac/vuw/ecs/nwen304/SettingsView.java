@@ -19,11 +19,18 @@ import android.widget.Toast;
 public class SettingsView extends Activity {
 
 	private String spinner_selected = "";
+	private int spinner_id = 0;
 	private int distance;
 	private boolean show_found = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+	}
+	
+	public void onResume(){
+		super.onResume();
+		
 		setContentView(R.layout.settings);
 		readPreferences();
 		
@@ -66,6 +73,8 @@ public class SettingsView extends Activity {
 
 		});
 		
+		spinner.setSelection(spinner_id);
+		
 		//Done button
 		final Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new OnClickListener() {
@@ -96,6 +105,7 @@ public class SettingsView extends Activity {
 		Editor e = sp.edit();
 		e.putInt("distance", distance);
 		e.putBoolean("show_found", show_found);
+		e.putInt("spinner_id", spinner_id);
 		e.commit();
 	}
 	
@@ -103,6 +113,7 @@ public class SettingsView extends Activity {
 		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
 		distance = sp.getInt("distance", distance);
 		show_found = sp.getBoolean("show_found", show_found);
+		spinner_id = sp.getInt("spinner_id", 0);
 	}
 
 }

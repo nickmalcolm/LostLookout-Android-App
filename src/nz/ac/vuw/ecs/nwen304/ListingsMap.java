@@ -54,7 +54,7 @@ public class ListingsMap extends MapActivity{
 	private int distance = 10;
 	private boolean show_found = true;
 	
-	private DBAdapter bdba;
+	private DBAdapter dba;
 
 	
 	@Override
@@ -67,10 +67,10 @@ public class ListingsMap extends MapActivity{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.map);
-	    
-	    bdba = new DBAdapter(this);
-        bdba.open();
         
+	    dba = new DBAdapter(this);
+        dba.open();
+	    
         if(register){
             AirMail am = AirMail.getInstance();
             am.register(this);
@@ -104,14 +104,25 @@ public class ListingsMap extends MapActivity{
 		String base_url = LostLookout.BASE_URL+"listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
-		bdba.updateAll(listings);
-        listings = bdba.getAllListings();
+		dba.updateAll(listings);
+        listings = dba.getAllListings();
 	    
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    //Lost items are red pins, found are green
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
 	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
 	    for(Listing l : listings){
+	    	//If we don't want to show found items
+	    	if(!show_found && !l.lost){
+	    		continue;
+	    	}
+	    	
+	    	//We might have lessened the distance radius. Those listings will still be in the database,
+	    	// but we don't want to show them!
+	    	if(DistanceCalculator.distance(lat, lng, l.latitude, l.longitude, 'K') > distance){
+	    		continue;
+	    	}
+	    	
 	    	ListingOverlay itemizedoverlay = new ListingOverlay(l.lost ? lost : found, this);
 
 		    ListingOverlayItem overlayitem = l.asOverlayItem();
