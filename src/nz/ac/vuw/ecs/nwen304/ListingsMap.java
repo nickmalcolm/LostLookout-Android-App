@@ -39,7 +39,7 @@ public class ListingsMap extends MapActivity{
 
 	protected String apid;
 
-	private MapView mapView;
+	private SmartMapView mapView;
 	
 	Collection<Listing> listings = null;
 
@@ -53,6 +53,7 @@ public class ListingsMap extends MapActivity{
 	private int zoom = 14;
 	private int distance = 10;
 	private boolean show_found = true;
+	private GeoPoint map_center = new GeoPoint(mapLat(), mapLng());
 	
 	private DBAdapter dba;
 
@@ -82,11 +83,12 @@ public class ListingsMap extends MapActivity{
 	public void onResume(){
 		super.onResume();
 		
-	    this.mapView = (MapView) findViewById(R.id.mapview);
+	    this.mapView = (SmartMapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 	    
 	    mapController = mapView.getController();
-		mapController.setZoom(1); // Zoom 1 is world view
+	    mapController.setCenter(map_center);
+		mapController.setZoom(zoom); // Zoom 1 is world view
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
@@ -269,6 +271,13 @@ public class ListingsMap extends MapActivity{
 		this.apid = sp.getString("apid", "");
 		this.distance = sp.getInt("distance", 10);
 		this.show_found = sp.getBoolean("show_found", true);
+		this.zoom = sp.getInt("zoom", 14);
+		int lat = sp.getInt("map_lat_e6", -1);
+		int lng = sp.getInt("map_lng_e6", -1);
+		
+		if(lat != -1 && lng != -1){
+			this.map_center = new GeoPoint(lat, lng);
+		}
 	}
 	
 }
