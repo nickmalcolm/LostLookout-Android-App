@@ -112,6 +112,7 @@ public class ListingsMap extends MapActivity{
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
 	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
 	    for(Listing l : listings){
+	    	
 	    	//If we don't want to show found items
 	    	if(!show_found && !l.lost){
 	    		continue;
@@ -157,6 +158,7 @@ public class ListingsMap extends MapActivity{
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.refresh:
+	    	pullAndShowListings();
 	        return true;
 	    case R.id.settings:
 	    	Intent i = new Intent(this, SettingsView.class);
