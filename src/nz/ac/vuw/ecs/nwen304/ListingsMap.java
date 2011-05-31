@@ -66,7 +66,7 @@ public class ListingsMap extends MapActivity{
 	private double lng = 174.7732353;
 	public String recent_location = "Wellington";
 	private int zoom = 14;
-	private int distance = 10;
+	private int distance_in_m = 10;
 	private boolean show_found = true;
 	private GeoPoint map_center = new GeoPoint(mapLat(), mapLng());
 	
@@ -123,7 +123,7 @@ public class ListingsMap extends MapActivity{
 	 */
 	private void pullAndShowListings() {
 		readPreferences();
-		String args = "lat="+lat+"&lng="+lng+"&within="+distance;
+		String args = "lat="+lat+"&lng="+lng+"&within="+(distance_in_m/1000);
 		String base_url = LostLookout.BASE_URL+"listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
@@ -146,7 +146,7 @@ public class ListingsMap extends MapActivity{
 	    	
 	    	//We might have lessened the distance radius. Those listings will still be in the database,
 	    	// but we don't want to show them!
-	    	if(DistanceCalculator.distance(lat, lng, l.latitude, l.longitude, 'K') > distance){
+	    	if(DistanceCalculator.distance(lat, lng, l.latitude, l.longitude, 'K') > (distance_in_m/1000)){
 	    		continue;
 	    	}
 	    	
@@ -316,7 +316,7 @@ public class ListingsMap extends MapActivity{
 	private void readPreferences(){
 		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
 		this.apid = sp.getString("apid", "");
-		this.distance = sp.getInt("distance", 10);
+		this.distance_in_m = sp.getInt("distance", 10000);
 		this.show_found = sp.getBoolean("show_found", true);
 		this.zoom = sp.getInt("zoom", 14);
 		int lat = sp.getInt("map_lat_e6", -1);

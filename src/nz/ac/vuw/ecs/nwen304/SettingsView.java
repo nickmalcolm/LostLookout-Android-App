@@ -25,7 +25,7 @@ public class SettingsView extends Activity {
 
 	private String spinner_selected = "";
 	private int spinner_pos = 0;
-	private int distance;
+	private int distance_in_m;
 	private boolean show_found = false;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,21 +95,23 @@ public class SettingsView extends Activity {
 
 	private void distanceToInt(String str) {
 		// "XXX km" to "The World"
-		if(str.equals("10 km")){
-			distance = 10;
+		if(str.equals("50 m")){
+			distance_in_m = 50;
+		}else if(str.equals("10 km")){
+			distance_in_m = 10*1000;
 		}else if(str.equals("50 km")){
-			distance = 50;
+			distance_in_m = 50*1000;
 		}else if(str.equals("1000 km")){
-			distance = 1000;
+			distance_in_m = 1000*1000;
 		}else if(str.equals("The World")){
-			distance = 20000;
+			distance_in_m = 20000*1000;
 		}
 	}
 	
 	private void writePreferences(){
 		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
 		Editor e = sp.edit();
-		e.putInt("distance", distance);
+		e.putInt("distance", distance_in_m);
 		e.putBoolean("show_found", show_found);
 		e.putInt("spinner_pos", spinner_pos);
 		e.commit();
@@ -117,7 +119,7 @@ public class SettingsView extends Activity {
 	
 	private void readPreferences(){
 		SharedPreferences sp = this.getSharedPreferences(LostLookout.SHARED_PREFS, 0);
-		distance = sp.getInt("distance", distance);
+		distance_in_m = sp.getInt("distance", distance_in_m);
 		show_found = sp.getBoolean("show_found", show_found);
 		spinner_pos = sp.getInt("spinner_pos", 0);
 	}
