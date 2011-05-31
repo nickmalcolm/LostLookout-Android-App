@@ -123,7 +123,7 @@ public class ListingsMap extends MapActivity{
 	 */
 	private void pullAndShowListings() {
 		readPreferences();
-		String args = "lat="+lat+"&lng="+lng+"&within="+(distance_in_m/1000);
+		String args = "lat="+lat+"&lng="+lng+"&within="+(dist_to_km());
 		String base_url = LostLookout.BASE_URL+"listings/near.json?";
 		ArrayList<Listing> listings = JSONParser.getListings(base_url+args);
         
@@ -146,7 +146,7 @@ public class ListingsMap extends MapActivity{
 	    	
 	    	//We might have lessened the distance radius. Those listings will still be in the database,
 	    	// but we don't want to show them!
-	    	if(DistanceCalculator.distance(lat, lng, l.latitude, l.longitude, 'K') > (distance_in_m/1000)){
+	    	if(DistanceCalculator.distance(lat, lng, l.latitude, l.longitude, 'K') > (dist_to_km())){
 	    		continue;
 	    	}
 	    	
@@ -171,6 +171,10 @@ public class ListingsMap extends MapActivity{
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+	
+	private double dist_to_km(){
+		return (double) distance_in_m/1000;
 	}
 	
 	@Override
