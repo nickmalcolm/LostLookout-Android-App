@@ -29,10 +29,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 import com.urbanairship.push.AirMail;
 
 /**
@@ -60,6 +63,7 @@ public class ListingsMap extends MapActivity{
 
 	private MapController mapController;
 	private LocationManager locationManager;
+	private boolean registered_with_ll_yet = false;
 	
 	//Wellington
 	private double lat = -41.2924945;
@@ -113,9 +117,6 @@ public class ListingsMap extends MapActivity{
 				0, new GeoUpdateHandler());
 		
 		pullAndShowListings();
-		
-		registerWithLostLookout();
-	    
 	}
 	
 	/**
@@ -129,14 +130,30 @@ public class ListingsMap extends MapActivity{
         
 		dba.updateAll(listings);
         listings = dba.getAllListings();
+        
+        //If we haven't managed to register with LostLookout yet,
+        // try again
+        if(!registered_with_ll_yet){
+        	registerWithLostLookout();
+        }
 	    
         
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    //We always want to redraw this, incase some have been removed.
 	    mapOverlays.clear();
+	    
 	    //Lost items are red pins, found are green
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
 	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
+	    
+	    final MyLocationOverlay my_loc = new MyLocationOverlay(this, mapView);
+	    my_loc.enableMyLocation();
+	    my_loc.runOnFirstFix(new Runnable() { public void run() {
+	        mapView.getController().animateTo(my_loc.getMyLocation());
+	    }});
+	    mapOverlays.add(my_loc);
+	    
+	    
 	    for(Listing l : listings){
 	    	
 	    	//If we don't want to show found items
@@ -157,7 +174,6 @@ public class ListingsMap extends MapActivity{
 		    itemizedoverlay.addOverlay(overlayitem);
 		    mapOverlays.add(itemizedoverlay);
 	    }
-	    
 		try {
 			URL url_u = new URL(base_url+args);
 	    	InputStream response = url_u.openStream();
@@ -165,6 +181,10 @@ public class ListingsMap extends MapActivity{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void showMyLocation(){
+		
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
@@ -214,6 +234,11 @@ public class ListingsMap extends MapActivity{
 	public int mapLng(){
 		return (int) (lng*1E6);
 	}
+	
+	private void setCenter(GeoPoint center){
+		map_center = center;
+		mapController.setCenter(map_center);
+	}
 
 	/**
 	 * Use to track GPS data
@@ -226,7 +251,9 @@ public class ListingsMap extends MapActivity{
 		
 		public GeoUpdateHandler(){
 			GeoPoint gp = new GeoPoint(mapLat(), mapLng());
+			
 			setLocation(gp, zoom );
+			setCenter(gp);
 			setRecentLocation();
 			registerWithLostLookout();
 		}
@@ -237,8 +264,8 @@ public class ListingsMap extends MapActivity{
 			lng = location.getLongitude();
 			GeoPoint gp = new GeoPoint(mapLat(), mapLng());
 			setRecentLocation();
+			setCenter(gp);
 			setLocation(gp, zoom);
-			registerWithLostLookout();
 		}
 		
 		public void setLocation(GeoPoint gp, int zoom){
@@ -276,11 +303,15 @@ public class ListingsMap extends MapActivity{
 	/**
 	 * Registers the current state of this application
 	 * with LostLookout.com
+	 * 
+	 * Returns true if it was able to register
 	 */
-    public void registerWithLostLookout() {
-        
+    public boolean registerWithLostLookout() {
+        if(apid == null){
+        	return false;
+        }
         //Build parameter string
-        String data = "area="+recent_location+"&apid="+apid;
+        String data = "area="+recent_location+"&apid="+apid+"&lat="+lat+"&lng="+lng;
         try {
             
             // Send the request
@@ -305,13 +336,15 @@ public class ListingsMap extends MapActivity{
             
             //Output the response
             System.out.println(answer.toString());
-            
+            registered_with_ll_yet = true;
+            return true;
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
       
         }
+       return false; 
    }
     
     /**
