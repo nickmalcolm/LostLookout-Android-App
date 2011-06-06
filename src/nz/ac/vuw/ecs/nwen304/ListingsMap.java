@@ -115,6 +115,7 @@ public class ListingsMap extends MapActivity{
 	    mapController.setCenter(map_center);
 		mapController.setZoom(zoom); // Zoom 1 is world view
 
+		//Get GPS updates
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new GeoUpdateHandler());
@@ -149,10 +150,12 @@ public class ListingsMap extends MapActivity{
 	    Drawable lost = this.getResources().getDrawable(R.drawable.redblank);
 	    Drawable found = this.getResources().getDrawable(R.drawable.greenblank);
 	    
+	    //Show a little blue dot of our location
 	    final MyLocationOverlay my_loc = new MyLocationOverlay(this, mapView);
 	    my_loc.enableMyLocation();
 	    my_loc.enableCompass();
 	    my_loc.runOnFirstFix(new Runnable() { public void run() {
+	    	//When we get a GPS fix, show the dot
 	        mapView.getController().animateTo(my_loc.getMyLocation());
 	    }});
 	    mapOverlays.add(my_loc);
@@ -185,6 +188,7 @@ public class ListingsMap extends MapActivity{
 	@Override
 	protected void onPause() {
 		super.onPause();
+		//Don't need to do anything. Prefs are saved whenever they're updated
 	}
 	
 	private double dist_to_km(){
