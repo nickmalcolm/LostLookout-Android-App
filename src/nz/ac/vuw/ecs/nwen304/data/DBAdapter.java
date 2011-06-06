@@ -14,10 +14,11 @@
  * the License.
  */
 
-package nz.ac.vuw.ecs.nwen304;
+package nz.ac.vuw.ecs.nwen304.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 
 import android.content.Context;
 import android.database.Cursor;

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nz.ac.vuw.ecs.nwen304.data.DBAdapter;
+import nz.ac.vuw.ecs.nwen304.data.JSONParser;
+import nz.ac.vuw.ecs.nwen304.data.Listing;
 import nz.ac.vuw.ecs.nwen304.helpers.DistanceCalculator;
 import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlay;
 import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlayItem;

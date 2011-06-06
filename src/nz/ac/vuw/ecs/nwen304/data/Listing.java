@@ -1,4 +1,4 @@
-package nz.ac.vuw.ecs.nwen304;
+package nz.ac.vuw.ecs.nwen304.data;
 
 import java.io.IOException;
 import java.io.InputStream;
