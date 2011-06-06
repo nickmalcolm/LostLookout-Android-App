@@ -148,6 +148,7 @@ public class ListingsMap extends MapActivity{
 	    
 	    final MyLocationOverlay my_loc = new MyLocationOverlay(this, mapView);
 	    my_loc.enableMyLocation();
+	    my_loc.enableCompass();
 	    my_loc.runOnFirstFix(new Runnable() { public void run() {
 	        mapView.getController().animateTo(my_loc.getMyLocation());
 	    }});
