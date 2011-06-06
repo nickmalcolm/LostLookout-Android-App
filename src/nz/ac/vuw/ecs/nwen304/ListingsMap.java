@@ -175,18 +175,8 @@ public class ListingsMap extends MapActivity{
 		    itemizedoverlay.addOverlay(overlayitem);
 		    mapOverlays.add(itemizedoverlay);
 	    }
-		try {
-			URL url_u = new URL(base_url+args);
-	    	InputStream response = url_u.openStream();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	private void showMyLocation(){
-		
-	}
 
 	/* Remove the locationlistener updates when Activity is paused */
 	@Override
