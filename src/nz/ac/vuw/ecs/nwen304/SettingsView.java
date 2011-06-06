@@ -26,7 +26,7 @@ public class SettingsView extends Activity {
 	private String spinner_selected = "";
 	private int spinner_pos = 0;
 	private int distance_in_m;
-	private boolean show_found = false;
+	private boolean show_found = true;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
