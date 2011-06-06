@@ -43,7 +43,7 @@ public class DBAdapter {
     
     private static final String DATABASE_NAME = "data";
     
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     
     public static int getDatabaseVersion(){
     	return DATABASE_VERSION;
@@ -155,6 +155,7 @@ public class DBAdapter {
     	int url = cur.getColumnIndex(Listing.URL);
     	int id = cur.getColumnIndex(Listing.ID);
     	int lost = cur.getColumnIndex(Listing.LOST);
+    	int icon_url = cur.getColumnIndex(Listing.ICON_URL);
     	
     	
     	while(importing){
@@ -165,7 +166,8 @@ public class DBAdapter {
     			cur.getString(descr),
     			cur.getString(url),
     			cur.getInt(id),
-    			cur.getInt(lost) == 1
+    			cur.getInt(lost) == 1,
+    			cur.getString(icon_url)
     		));
     		if(!cur.moveToNext()){
     			importing = false;

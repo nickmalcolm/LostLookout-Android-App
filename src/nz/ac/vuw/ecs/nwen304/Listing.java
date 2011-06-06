@@ -1,11 +1,18 @@
 package nz.ac.vuw.ecs.nwen304;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import nz.ac.vuw.ecs.nwen304.helpers.ListingOverlayItem;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 /**
  * 
@@ -23,6 +30,7 @@ public class Listing {
 	public String url;
 	public int id;
 	public boolean lost;
+	public String icon_url;
 	
 	//Key values for a database
 	public static String TABLE_NAME = "listings";
@@ -33,6 +41,7 @@ public class Listing {
 	public static String URL = "url";
 	public static String ID = "_id";
 	public static String LOST = "lost";
+	public static String ICON_URL = "icon_url";
 	
 	/**
 	 * Make a Listing POJO
@@ -46,7 +55,7 @@ public class Listing {
 	 * @param lost
 	 */
 	public Listing(String title, double latitude, double longitude,
-			String description, String url, int id, boolean lost) {
+			String description, String url, int id, boolean lost, String icon_url) {
 		this.title = title;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -54,6 +63,7 @@ public class Listing {
 		this.url = url;
 		this.id = id;
 		this.lost = lost;
+		this.icon_url = icon_url;
 	}
 	
 	public ContentValues getContentValues(){
@@ -65,18 +75,19 @@ public class Listing {
         initialValues.put(DESCR, this.description);
         initialValues.put(URL, this.url);
         initialValues.put(LOST, this.lost);
+        initialValues.put(ICON_URL, this.icon_url);
         return initialValues;
 	}
 	
 	public static String createSQLTable(){
 		return "CREATE TABLE "+TABLE_NAME+
 		" (_id integer primary key autoincrement, title text, latitude float, " +
-		"longitude float, description text, url text, lost boolean)";
+		"longitude float, description text, url text, lost boolean, icon_url text)";
 		
 	}
 	
 	public static String tableColumns(){
-		return "(_id, title, latitude, longitude, description, url, lost)";
+		return "(_id, title, latitude, longitude, description, url, lost, icon_url)";
 	}
 	
 	/**
@@ -93,5 +104,4 @@ public class Listing {
 	public String longTitle(){
 		return (this.lost ? "Lost " : "Found ")+title;
 	}
-
 }

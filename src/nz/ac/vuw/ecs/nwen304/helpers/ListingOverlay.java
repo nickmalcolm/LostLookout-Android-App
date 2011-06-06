@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import nz.ac.vuw.ecs.nwen304.ListingWebView;
-import nz.ac.vuw.ecs.nwen304.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
@@ -62,7 +60,7 @@ public class ListingOverlay extends ItemizedOverlay<OverlayItem> {
 	  dialog.setMessage(item.getSnippet());
 	  dialog.setCancelable(false);
 
-	  Drawable image = imageOperations(mContext, "http://i.imgur.com/6LRWis.jpg");
+	  Drawable image = imageOperations(mContext, item.getListing().icon_url);
 	  if(image != null){
 		  dialog.setIcon(image);
 	  }
