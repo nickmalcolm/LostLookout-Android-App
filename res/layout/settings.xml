@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >   
-    
-	<CheckBox android:id="@+id/show_find"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:text="Show found listings?"/>
-	 
-	<Spinner 
-	android:id="@+id/distance_spinner"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:prompt="@string/distance_prompt"/>
-	
-	<Button
-    android:id="@+id/button"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-    android:text="Done"
-    android:textSize="25sp"
-    />
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<CheckBox android:id="@+id/show_find" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Show found listings?" />
+
+	<Spinner android:id="@+id/distance_spinner"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:prompt="@string/distance_prompt" />
+
+	<Button android:id="@+id/button" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Done"
+		android:textSize="25sp" />
+	<TextView android:id="@+id/about_name" android:text="@string/about_title"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:textSize="25sp" />
+	<TextView android:id="@+id/about_text" android:text="@string/about_text"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:textSize="18sp" android:textColor="#888888" />
 </LinearLayout>

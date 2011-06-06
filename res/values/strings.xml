@@ -4,6 +4,10 @@
     <string name="distance_prompt">Show Listings within</string>
     <string name="refresh">Refresh Map</string>
     <string name="settings">Settings</string>
+    <string name="about_title">\n\n\n\n\nLost Lookout Mobile</string>
+    <string name="about_text">LostLookout.com lets people spread the word about items they\'ve found and lost.
+    This app helps you keep a look out for lost stuff near you, and hopefully earn a nice reward!\n\nCreated by Nick Malcolm
+    for VUW\'s NWEN304 course.</string>
     <string-array name="distance_array">
         <item>50 m</item>
         <item>10 km</item>
