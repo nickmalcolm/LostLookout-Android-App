@@ -2,7 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/menu">
     <item android:id="@+id/refresh"
-          android:title="@string/refresh" />
+          android:title="@string/refresh"
+          android:icon="@drawable/redo" />
     <item android:id="@+id/settings"
-          android:title="@string/settings" />
+          android:title="@string/settings"
+          android:icon="@drawable/options" />
 </menu>
